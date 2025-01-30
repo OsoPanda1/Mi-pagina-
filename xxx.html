@@ -1,0 +1,1033 @@
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import GroupSection from './components/GroupSection';
+import Gallery from './components/Gallery';
+import News from './components/News';
+import Shop from './components/Shop';
+import Contact from './components/Contact';
+import Donations from './components/Donations';
+import Presenteh from './components/Presenteh';
+import Countdown from './components/Countdown';
+
+const App = () => {
+  return (
+    <Router>
+      <div className="flex flex-col min-h-screen bg-black text-white">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={
+              <>
+                <HeroSection />
+                <GroupSection />
+                <Gallery />
+                <News />
+                <Shop />
+                <Presenteh />
+                <Countdown />
+              </>
+            } />
+            <Route path="/grupos" element={<GroupSection />} />
+            <Route path="/galeria" element={<Gallery />} />
+            <Route path="/noticias" element={<News />} />
+            <Route path="/tienda" element={<Shop />} />
+            <Route path="/contacto" element={<Contact />} />
+            <Route path="/donaciones" element={<Donations />} />
+            <Route path="/presenteh" element={<Presenteh />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+const HeroSection = () => {
+  return (
+    <div className="bg-gray-900 text-white py-20 text-center section" id="portada">
+      <img
+        src="/images/logo.png"
+        alt="TAMV ONLINE NETWORK logo"
+        className="mx-auto mb-4 h-48 w-48 object-cover"
+      />
+      <h1 className="text-4xl font-bold mb-4">TAMV ONLINE NETWORK</h1>
+      <p className="text-lg">
+        Orgullosamente Mexicanos.<br />
+        Real del Monte❤️ Hidalgo.
+      </p>
+    </div>
+  );
+};
+
+export default App;
+
+// components/Header.jsx
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <header className="bg-gray-800 text-white py-4 px-6 shadow section">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center">
+          <video autoPlay loop muted className="h-10 mr-4">
+            <source src="/videos/intro.mp4" type="video/mp4" />
+          </video>
+          <Link to="/" className="text-2xl font-bold">TAMV ONLINE NETWORK</Link>
+        </div>
+        
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        
+        <nav className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
+          <ul className="md:flex space-y-2 md:space-y-0 md:space-x-4">
+            <li><Link to="/grupos" className="hover:text-gray-300">Grupos</Link></li>
+            <li><Link to="/galeria" className="hover:text-gray-300">Galería</Link></li>
+            <li><Link to="/noticias" className="hover:text-gray-300">Noticias</Link></li>
+            <li><Link to="/tienda" className="hover:text-gray-300">Tienda</Link></li>
+            <li><Link to="/contacto" className="hover:text-gray-300">Contacto</Link></li>
+            <li><Link to="/donaciones" className="hover:text-gray-300">Donaciones</Link></li>
+            <li><Link to="/presenteh" className="hover:text-gray-300">PRESENTEH</Link></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  );
+};
+
+// components/GroupSection.jsx
+import React, { useState } from 'react';
+
+const GroupSection = () => {
+  const [groups, setGroups] = useState({
+    whatsapp: [],
+    telegram: []
+  });
+
+  const handleGroupSubmit = (type, groupData) => {
+    setGroups(prev => ({
+      ...prev,
+      [type]: [...prev[type], groupData]
+    }));
+  };
+
+  return (
+    <div className="text-center section" id="publicar-grupos">
+      <h2 className="text-2xl font-bold mb-4 uppercase">Publica tus grupos</h2>
+      <p className="mb-4">Publica tus grupos de WhatsApp y Telegram</p>
+      
+      <div className="flex flex-wrap justify-center space-x-4">
+        <button className="btn-pill py-2 px-4" onClick={() => handleGroupSubmit('whatsapp')}>
+          Publicar Grupo WhatsApp
+        </button>
+        <button className="btn-pill py-2 px-4" onClick={() => handleGroupSubmit('telegram')}>
+          Publicar Grupo Telegram
+        </button>
+      </div>
+
+      <div className="mt-8 grid md:grid-cols-2 gap-4">
+        <div>
+          <h3 className="text-xl font-bold mb-4">Grupos de WhatsApp</h3>
+          {/* Lista de grupos de WhatsApp */}
+        </div>
+        <div>
+          <h3 className="text-xl font-bold mb-4">Grupos de Telegram</h3>
+          {/* Lista de grupos de Telegram */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// components/Gallery.jsx
+const Gallery = () => {
+  const images = [
+    { src: '/images/gallery/foto1.jpg', alt: 'Imagen 1' },
+    { src: '/images/gallery/foto2.jpg', alt: 'Imagen 2' },
+    // ... más imágenes
+  ];
+
+  return (
+    <div className="section" id="galeria">
+      <h2 className="text-2xl font-bold mb-4">Galería</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image.src}
+            alt={image.alt}
+            className="rounded section w-full h-64 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// components/Presenteh.jsx
+const Presenteh = () => {
+  return (
+    <div className="text-center section" id="presenteh">
+      <h2 className="text-2xl font-bold mb-4">PRESENTEH</h2>
+      <p className="mb-4">
+        Protegiendo y escuchando, Empoderamos y Nutrimos con Trabajo y Esfuerzo en tu Honor
+      </p>
+      <p className="mb-4">
+        Nuestra misión es apoyar a mujeres víctimas de maltrato físico y psicológico,
+        brindándoles las herramientas necesarias para empoderarse y salir adelante.
+      </p>
+      <img
+        src="/images/presenteh-banner.jpg"
+        alt="PRESENTEH Banner"
+        className="mx-auto mb-4 section max-w-2xl"
+      />
+      <button className="btn-pill py-2 px-4">Conoce más</button>
+    </div>
+  );
+};
+
+// components/Countdown.jsx
+const Countdown = () => {
+  const [timeLeft, setTimeLeft] = React.useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  React.useEffect(() => {
+    const countdownDate = new Date("2025-06-26").getTime();
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+
+      if (distance < 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="text-center section" id="lanzamiento">
+      <h2 className="text-2xl font-bold mb-4">
+        LANZAMIENTO DE POP PLATAFORMA DIGITAL
+      </h2>
+      <div className="text-4xl font-bold mb-4">
+        {`${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
+      </div>
+      <p>Faltan días para el lanzamiento de nuestra nueva plataforma digital.</p>
+    </div>
+  );
+};
+// utils/api.js
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+export const api = {
+  async getGroups(type) {
+    const response = await fetch(`${API_BASE_URL}/groups/${type}`);
+    return response.json();
+  },
+
+  async createGroup(type, data) {
+    const response = await fetch(`${API_BASE_URL}/groups/${type}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  async getGalleryImages() {
+    const response = await fetch(`${API_BASE_URL}/gallery`);
+    return response.json();
+  },
+
+  async getNews() {
+    const response = await fetch(`${API_BASE_URL}/news`);
+    return response.json();
+  },
+
+  async getProducts() {
+    const response = await fetch(`${API_BASE_URL}/products`);
+    return response.json();
+  },
+
+  async submitDonation(data) {
+    const response = await fetch(`${API_BASE_URL}/donations`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  async submitContactForm(data) {
+    const response = await fetch(`${API_BASE_URL}/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+};
+
+export default api;
+// components/Shop.jsx
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
+
+const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await api.getProducts();
+        setProducts(data);
+      } catch (err) {
+        setError('Error al cargar los productos');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const addToCart = (product) => {
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (productId) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+  };
+
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity < 1) return;
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  if (loading) return <div className="text-center p-8">Cargando productos...</div>;
+  if (error) return <div className="text-center p-8 text-red-500">{error}</div>;
+
+  return (
+    <div className="section p-4">
+      <h2 className="text-2xl font-bold mb-8 text-center">Tienda TAMV</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Productos */}
+        <div className="md:col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {products.map((product) => (
+              <div key={product.id} className="bg-gray-800 rounded-lg p-4 section">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <h3 className="text-lg font-bold mb-2">{product.name}</h3>
+                <p className="text-gray-300 mb-2">{product.description}</p>
+                <p className="text-xl font-bold mb-4">${product.price.toFixed(2)}</p>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="btn-pill w-full py-2 px-4"
+                >
+                  Agregar al Carrito
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Carrito */}
+        <div className="bg-gray-800 rounded-lg p-4 section">
+          <h3 className="text-xl font-bold mb-4">Carrito de Compras</h3>
+          {cart.length === 0 ? (
+            <p>Tu carrito está vacío</p>
+          ) : (
+            <>
+              {cart.map((item) => (
+                <div key={item.id} className="flex items-center mb-4 border-b border-gray-700 pb-4">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-16 h-16 object-cover rounded-lg mr-4"
+                  />
+                  <div className="flex-grow">
+                    <h4 className="font-bold">{item.name}</h4>
+                    <p className="text-sm text-gray-300">
+                      ${item.price.toFixed(2)} x {item.quantity}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      className="px-2 py-1 rounded-lg bg-gray-700"
+                    >
+                      -
+                    </button>
+                    <span className="mx-2">{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="px-2 py-1 rounded-lg bg-gray-700"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="ml-4 text-red-500"
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <div className="mt-4">
+                <div className="flex justify-between mb-4">
+                  <span className="font-bold">Total:</span>
+                  <span className="font-bold">${calculateTotal().toFixed(2)}</span>
+                </div>
+                <button className="btn-pill w-full py-2 px-4">
+                  Proceder al Pago
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// components/Donations.jsx
+const Donations = () => {
+  const [donationAmount, setDonationAmount] = useState('');
+  const [donorName, setDonorName] = useState('');
+  const [donorEmail, setDonorEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const predefinedAmounts = [10, 20, 50, 100];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      await api.submitDonation({
+        amount: parseFloat(donationAmount),
+        name: isAnonymous ? 'Anónimo' : donorName,
+        email: donorEmail,
+        message,
+        isAnonymous
+      });
+
+      // Limpiar el formulario
+      setDonationAmount('');
+      setDonorName('');
+      setDonorEmail('');
+      setMessage('');
+      setIsAnonymous(false);
+
+      alert('¡Gracias por tu donación!');
+    } catch (error) {
+      alert('Error al procesar la donación. Por favor, intenta nuevamente.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="section p-4">
+      <h2 className="text-2xl font-bold mb-8 text-center">Donaciones PRESENTEH</h2>
+      
+      <div className="max-w-2xl mx-auto bg-gray-800 rounded-lg p-6 section">
+        <p className="mb-6 text-center">
+          Tu donación ayuda a mujeres víctimas de maltrato físico y psicológico.
+          Cada peso cuenta para hacer la diferencia.
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          {/* Montos predefinidos */}
+          <div className="grid grid-cols-4 gap-4 mb-6">
+            {predefinedAmounts.map(amount => (
+              <button
+                key={amount}
+                type="button"
+                onClick={() => setDonationAmount(amount.toString())}
+                className={`btn-pill py-2 px-4 ${
+                  donationAmount === amount.toString() ? 'bg-blue-600' : ''
+                }`}
+              >
+                ${amount}
+              </button>
+            ))}
+          </div>
+
+          {/* Monto personalizado */}
+          <div className="mb-4">
+            <label className="block mb-2">Monto personalizado ($)</label>
+            <input
+              type="number"
+              value={donationAmount}
+              onChange={(e) => setDonationAmount(e.target.value)}
+              className="w-full p-2 bg-gray-700 rounded-lg"
+              min="1"
+              required
+            />
+          </div>
+
+          {/* Información del donante */}
+          <div className="mb-4">
+            <label className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                checked={isAnonymous}
+                onChange={(e) => setIsAnonymous(e.target.checked)}
+                className="mr-2"
+              />
+              Hacer donación anónima
+            </label>
+
+            {!isAnonymous && (
+              <>
+                <div className="mb-4">
+                  <label className="block mb-2">Nombre</label>
+                  <input
+                    type="text"
+                    value={donorName}
+                    onChange={(e) => setDonorName(e.target.value)}
+                    className="w-full p-2 bg-gray-700 rounded-lg"
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={donorEmail}
+                    onChange={(e) => setDonorEmail(e.target.value)}
+                    className="w-full p-2 bg-gray-700 rounded-lg"
+                    required
+                  />
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Mensaje */}
+          <div className="mb-6">
+            <label className="block mb-2">Mensaje (opcional)</label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full p-2 bg-gray-700 rounded-lg"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            className="btn-pill w-full py-3 px-4"
+            disabled={submitting}
+          >
+            {submitting ? 'Procesando...' : 'Donar'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+// components/News.jsx
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
+
+const News = () => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [newsPerPage] = useState(6);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const data = await api.getNews();
+        setNews(data);
+      } catch (err) {
+        setError('Error al cargar las noticias');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  // Obtener noticias actuales
+  const indexOfLastNews = currentPage * newsPerPage;
+  const indexOfFirstNews = indexOfLastNews - newsPerPage;
+  const currentNews = news.slice(indexOfFirstNews, indexOfLastNews);
+
+  // Cambiar página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) return <div className="text-center p-8">Cargando noticias...</div>;
+  if (error) return <div className="text-center p-8 text-red-500">{error}</div>;
+
+  return (
+    <div className="section p-4">
+      <h2 className="text-2xl font-bold mb-8 text-center">Noticias</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {currentNews.map((article) => (
+          <div key={article.id} className="bg-gray-800 rounded-lg overflow-hidden section">
+            <img
+              src={article.image}
+              alt={article.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-bold mb-2">{article.title}</h3>
+              <p className="text-gray-400 text-sm mb-2">
+                {new Date(article.date).toLocaleDateString()}
+              </p>
+              <p className="text-gray-300 mb-4">{article.excerpt}</p>
+              <button
+                onClick={() => window.location.href = `/noticias/${article.id}`}
+                className="btn-pill py-2 px-4"
+              >
+                Leer más
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Paginación */}
+      <div className="flex justify-center mt-8">
+        {Array.from({ length: Math.ceil(news.length / newsPerPage) }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`mx-1 px-4 py-2 rounded-lg ${
+              currentPage === index + 1 ? 'bg-blue-600' : 'bg-gray-700'
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// components/Contact.jsx
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      await api.submitContactForm(formData);
+      setSubmitStatus({
+        type: 'success',
+        message: 'Mensaje enviado correctamente. Nos pondremos en contacto contigo pronto.'
+      });
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Error al enviar el mensaje. Por favor, intenta nuevamente.'
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+  // components/Contact.jsx
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simular llamada API
+      setSubmitStatus({ type: 'success', message: 'Mensaje enviado exitosamente' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      setSubmitStatus({ type: 'error', message: 'Error al enviar el mensaje' });
+    }
+    setSubmitting(false);
+  };
+
+  return (
+    <motion.div 
+      className="section min-h-screen bg-gradient-to-b from-gray-900 to-black p-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="max-w-4xl mx-auto bg-gray-800/50 backdrop-blur-lg rounded-xl p-8 shadow-2xl">
+        <motion.h2 
+          className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+          {...fadeIn}
+        >
+          Contacto
+        </motion.h2>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <motion.div 
+            className="space-y-6"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div>
+              <h3 className="text-2xl font-semibold mb-4">Información de Contacto</h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <i className="fas fa-map-marker-alt text-blue-400"></i>
+                  </div>
+                  <div>
+                    <p className="text-gray-400">Ubicación</p>
+                    <p>Real del Monte, Hidalgo, México</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <i className="fas fa-envelope text-purple-400"></i>
+                  </div>
+                  <div>
+                    <p className="text-gray-400">Email</p>
+                    <p>contacto@tamvnetwork.com</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center">
+                    <i className="fas fa-phone text-pink-400"></i>
+                  </div>
+                  <div>
+                    <p className="text-gray-400">Teléfono</p>
+                    <p>+52 (123) 456-7890</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.form 
+            onSubmit={handleSubmit}
+            className="space-y-6"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <div>
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Asunto"
+                value={formData.subject}
+                onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
+                required
+              />
+            </div>
+            <div>
+              <textarea
+                placeholder="Mensaje"
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+                rows="5"
+                className="w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                required
+              ></textarea>
+            </div>
+
+            <motion.button
+              type="submit"
+              className={`w-full py-3 px-6 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all ${
+                submitting ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
+              disabled={submitting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {submitting ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Enviando...
+                </span>
+              ) : 'Enviar Mensaje'}
+            </motion.button>
+
+            {submitStatus && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`text-center p-4 rounded-lg ${
+                  submitStatus.type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                }`}
+              >
+                {submitStatus.message}
+              </motion.div>
+            )}
+          </motion.form>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// components/Footer.jsx
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold mb-4">TAMV Network</h3>
+            <p className="text-gray-400">
+              Orgullosamente Mexicanos.<br />
+              Real del Monte ❤️ Hidalgo
+            </p>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <i className="fab fa-twitter"></i>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <i className="fab fa-telegram"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-4">Enlaces Rápidos</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Inicio</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Grupos</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Galería</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Tienda</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-4">Soporte</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacidad</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Términos</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-4">Newsletter</h3>
+            <p className="text-gray-400 mb-4">Suscríbete para recibir noticias y actualizaciones.</p>
+            <form className="space-y-4">
+              <input
+                type="email"
+                placeholder="Tu email"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all"
+              />
+              <button
+                type="submit"
+                className="w-full py-2 px-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all"
+              >
+                Suscribirse
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+          <p>© 2025 TAMV ONLINE NETWORK. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+// components/Hero.jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const Hero = () => {
+  return (
+    <motion.div 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      {/* Video de fondo */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.5)' }}
+        >
+          <source src="/videos/intro.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Contenido */}
+      <div className="relative z-10 text-center px-4">
+        <motion.img
+          src="/images/logo.png"
+          alt="TAMV ONLINE NETWORK"
+          className="w-48 h-48 mx-auto mb-8 rounded-full shadow-2xl"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+        />
+
+        <motion.h1
+          className="text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          TAMV ONLINE NETWORK
+        </motion.h1>
+
+        <motion.p
+          className="text-xl text-gray-300 mb-8"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          Orgullosamente Mexicanos.<br />
+          Real del Monte❤️ Hidalgo.
+        </motion.p>
+
+        <motion.div
+          className="flex flex-wrap justify-center gap-4"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <motion.button
+            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full hover:from-blue-600 hover:to-blue-800 transform hover:scale-105 transition-all"
+            whileHover={{ scale: 1.05 }}
